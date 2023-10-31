@@ -1,0 +1,41 @@
+###Configurando as redes dos containers do Airflow###
+
+Os containers do Airflow estão em uma rede diferente dos outros containers, para arrumar isso seguir esses passos:
+
+1 - primeiro listar as redes com o comando
+   
+	docker network ls
+	
+	A rede "bridge" é uma rede padrão do docker, assim como a rede "host", no nosso caso o Airflow criou uma nova rede para ele, a "airflow_default", vamos verificar quais são as redes de nosso container do dbdsa
+
+2 - Rodar o seguinte comando para listar o nome das redes de todos os containers (extrair detalhes sobre a rede do container)
+
+	docker ps --format "{{ .ID }} {{ .Names }} {{ json .Networks }}"
+	
+	Isso vai mostrar que os containers estão em redes diferentes, temos que arrumar isso. Normalmente o nosso container do banco de dados vai estar na rede "bridge" enquanto o Airflow está em "airflow_defaut".
+
+3 - Para solucionar isso temos as seguintes opções
+
+	a - Mudar o nome da rede direto no arquivo "docker-compose.yaml"
+	b - Outra alternativa é mudar a instrução do docker na criação do bando de dados
+		Desse
+			docker run --name dbdsa-lab6 -p 5433:5432 -e POSTGRES_USER=dsa -e POSTGRES_PASSWORD=dsa123 -e POSTGRES_DB=dsadb -d postgres
+		Para esse
+docker run --network airflow_default --name dbdsa-lab6 -p 5433:5432 -e POSTGRES_USER=dsa -e POSTGRES_PASSWORD=dsa123 -e POSTGRES_DB=dsadb -d postgres
+	c - Essa ultima alternativa é a mais adequada, simplesmente mudando a configuração dos containers já criados
+
+4 - Agora vamos fazer a alternativa C
+
+	a - Desconectar o container da rede atual, rode o seguinte comando
+
+		docker network disconnect bridge dbdsa
+
+	b - Conectar o container na rede desejada, rode o seguinte comando
+
+		docker network connect airflow_default dbdsa
+
+ 5- Agora vamos verificar se estão na mesma rede, rode o comando
+
+	docker ps --format "{{ .ID }} {{ .Names }} {{ json .Networks }}"
+
+###PRONTO, AGORA POSSO CONECTAR O MEU AIRFLOW###

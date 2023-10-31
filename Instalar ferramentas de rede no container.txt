@@ -1,0 +1,5 @@
+# Instalar ferramentas de rede no container
+
+apt-get update
+apt-get install net-tools
+apt-get install iputils-ping

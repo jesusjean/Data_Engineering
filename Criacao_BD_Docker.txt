@@ -1,0 +1,26 @@
+###Execute o comando abaixo no terminal ou prompt de comando para baixar a imagem e criar o container:
+
+docker run --name dbdsa-lab6 -p 5433:5432 -e POSTGRES_USER=dsa -e POSTGRES_PASSWORD=dsa123 -e POSTGRES_DB=dsadb -d postgres
+
+###Configurando o pgAdmin###
+
+Name (aba General) - Qualquer coisa
+Host name (aba Connection) - Aqui é a maquina, no nosso caso é "localhost"
+Port (aba Connection) - Tem que ser o primeiro numero, nesse nosso caso o 5433
+Maintenance database (aba Connection) - Aqui é o nome do banco, que é o POSTGRES_DB="dsadb"
+Username (aba Connection) - POSTGRES_USER="dsa"
+Password (aba Connection) - POSTGRES_PASSWORD="dsa123"
+
+###Explicando as portas###
+
+5433:5432
+	5432 é a porta dentro do container
+	5433 é a porta para o mundo externo
+
+###Explicando cada parametro###
+
+docker run ---- Rodar o container
+--name     ---- Esse vai ser o nome do container
+-p         ---- Mapeamento de portas
+-e         ---- Vou colocar um paremetro
+-d         ---- quero que ele rode em modo background

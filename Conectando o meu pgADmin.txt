@@ -1,0 +1,16 @@
+Conectando o meu pgAdmin
+
+GENERAL
+
+	Name - Nesse campo pode ser inserido oque eu desejar
+
+
+Connction
+
+	Host name/addres - localhost
+	Port - 5433
+	Maintenence database - Aqui é o nome do banco de dados
+				POSTGRES_DB= **** (colocar os valores contidos no **)
+	Username - POSTGRES_User= **** (colocar os valores contidos no **)
+	Password - POSTGRES_PASSWORD= **** (colocar os valores contidos no **)
+
